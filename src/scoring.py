@@ -16,20 +16,20 @@ with open('config.json','r') as f:
 
 dataset_csv_path = os.path.join(config['output_folder_path']) 
 test_data_path = os.path.join(config['test_data_path']) 
-model_path = os.path.join(config['output_model_path']) 
+output_model_path = os.path.join(config['output_model_path']) 
 
 
 #################Function for model scoring
-def score_model():
+def score_model(model_path, data_path):
     #this function should take a trained model, load test data, and calculate an F1 score for the model relative to the test data
     #it should write the result to the latestscore.txt file
     
     # 1. Load trained model
-    with open(os.path.join(os.getcwd(), model_path, "trainedmodel.pkl"), 'rb') as file:
+    with open(model_path, 'rb') as file:
         model = pickle.load(file)
 
     # 2. Load test data
-    df_test = pd.read_csv(os.path.join(os.getcwd(), test_data_path, "testdata.csv"))
+    df_test = pd.read_csv(data_path)
     df_test = df_test.drop(columns=['corporation'])
 
     X_test = df_test.drop(columns=['exited'])
@@ -41,11 +41,17 @@ def score_model():
     print('F1 score: ', f1)
 
     # 4. Write result to output_model_path + latestscore.txt
-    latest_score = open(os.path.join(os.getcwd(), model_path, "latestscore.txt"),'w')
+    if not os.path.exists(os.path.join(os.getcwd(), output_model_path)):    
+        os.makedirs(os.path.join(os.getcwd(), output_model_path))
+
+    latest_score = open(os.path.join(os.getcwd(), output_model_path, "latestscore.txt"),'w')
     latest_score.write(str(f1)+"\n")
 
     return f1
 
 
 if __name__ == '__main__':
-    score_model()
+    model_path = os.path.join(os.getcwd(), output_model_path, "trainedmodel.pkl")
+    data_path = os.path.join(os.getcwd(), test_data_path, "testdata.csv")
+
+    score_model(model_path, data_path)

@@ -1,2 +1,2 @@
-/Users/cschmidl/phd/repos/A-Dynamic-Risk-Assessment-System/src/practicedata/dataset1.csv
-/Users/cschmidl/phd/repos/A-Dynamic-Risk-Assessment-System/src/practicedata/dataset2.csv
+dataset1.csv
+dataset2.csv

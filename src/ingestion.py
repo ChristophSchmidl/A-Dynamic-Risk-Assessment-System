@@ -45,7 +45,8 @@ def merge_multiple_dataframe():
                 # 2. Merge the datasets together
                 df_list=df_list.append(tmp_df)
                 # Add ingested filenames
-                ingested_files.append(os.path.join(os.getcwd(), directory, filename))
+                #ingested_files.append(os.path.join(os.getcwd(), directory, filename))
+                ingested_files.append(filename)
 
     # 3. Remove duplicates
     result = df_list.drop_duplicates()

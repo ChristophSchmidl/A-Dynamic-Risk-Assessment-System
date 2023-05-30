@@ -21,6 +21,7 @@ with open('config.json','r') as f:
 dataset_csv_path = os.path.join(config['output_folder_path']) 
 prod_deployment_path = os.path.join(config['prod_deployment_path']) 
 test_data_path = os.path.join(config['test_data_path']) 
+output_model_path = os.path.join(config['output_model_path']) 
 
 
 with open(os.path.join(os.getcwd(), prod_deployment_path, "trainedmodel.pkl"), 'rb') as file:
@@ -55,7 +56,10 @@ def predict():
 #######################Scoring Endpoint
 @app.route("/scoring", methods=['GET','OPTIONS'])
 def score():
-    return Response(str(score_model()), content_type='text/plain', status=200)
+    model_path = os.path.join(os.getcwd(), output_model_path, "trainedmodel.pkl")
+    data_path = os.path.join(os.getcwd(), test_data_path, "testdata.csv")
+
+    return Response(str(score_model(model_path, data_path)), content_type='text/plain', status=200)
 
 #######################Summary Statistics Endpoint
 @app.route("/summarystats", methods=['GET','OPTIONS'])
